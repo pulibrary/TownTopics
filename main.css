@@ -1,0 +1,8 @@
+body { background-color: whitesmoke; }
+
+table { border: none; }
+th { color: orange; background-color: black; }
+th.date { width: 20em; }
+tr.shaded { background-color:#FAF0E6; }
+
+th.pass, td.pass, th.fail, td.fail { border: thin solid black;  }

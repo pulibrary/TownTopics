@@ -1,0 +1,13 @@
+How to Install the QC Tool
+
+1.  Install eXist.  See http://exist.sourceforge.net/ for instructions.
+
+2.  Configure.  
+    - Edit the file called build.xml in this directory. Edit
+      the targets named "load-batch-04" and load-batch-05," modifying
+      the dir attribute of the <fileset> element to point to the
+      location of the METS files for each batch.
+    - Symlink this directory to a target in $EXIST_HOME/webapp.  E.g.,
+      ln -s path/to/this/dir $EXIST_HOME/webapp/
+
+3.  Load. Start eXist, then run "ant load" from this directory.

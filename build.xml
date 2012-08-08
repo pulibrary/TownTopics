@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<project basedir="." xmlns:xdb="http://exist-db.org/ant">
+	<description>PUDL ant tasks</description>
+
+	<property name="eXist_home" value="/opt/local/exist" />
+
+	<typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
+		<classpath>
+			<fileset dir="${eXist_home}/lib/core">
+				<include name="*.jar" />
+			</fileset>
+			<pathelement location="${eXist_home}/exist.jar" />
+			<pathelement location="${eXist_home}/exist-optional.jar" />
+		</classpath>
+	</typedef>
+
+
+	<property name="xmldb.host" value="localhost" />
+	<property name="xmldb.port" value="8080" />
+	<property name="xmldb.user" value="admin" />
+	<property name="xmldb.passwd" value="admin" />
+	<property name="xmldb.url" value="xmldb:exist://${xmldb.host}:${xmldb.port}/exist/xmlrpc/db" />
+	<property name="xmldb.approot" value="${xmldb.url}/pwb" />
+	<property name="data_home" value="/mnt/princedata/Princetonian_data/WeeklyBulletin" />
+
+<!--
+	<target name="load" description="load the database" depends="storeconf,load-batch-04,load-batch-05,load-batch-06,load-batch-07,load-batch-09"/>
+-->
+	<target name="storeconf" description="store the collection.xconf record">
+	  <xdb:store user="${xmldb.user}" password="${xmldb.passwd}" uri="${xmldb.url}/system/config/db/pwb" createcollection="true">
+	    <fileset dir=".">
+	      <include name="collection.xconf"/>
+	    </fileset>
+	  </xdb:store>
+	</target>
+
+	<target name="load-batch-1" description="load batch 1">
+	  <xdb:store user="${xmldb.user}" password="${xmldb.passwd}" uri="${xmldb.approot}/batch1" createcollection="true" createsubcollections="true" type="xml">
+	    <fileset dir="${data_home}/Batch1-20120608">
+	      <include name="**/*METS.xml" />
+	      <exclude name="**/Princetonian-IMG/**" />
+	    </fileset>
+	  </xdb:store>
+	</target>
+	<target name="load-batch-2" description="load batch 2">
+	  <xdb:store user="${xmldb.user}" password="${xmldb.passwd}" uri="${xmldb.approot}/batch2" createcollection="true" createsubcollections="true" type="xml">
+	    <fileset dir="${data_home}/Batch2-20120608">
+	      <include name="**/*METS.xml" />
+	      <exclude name="**/Princetonian-IMG/**" />
+	    </fileset>
+	  </xdb:store>
+	</target>
+	<target name="load-batch-3" description="load batch 3">
+	  <xdb:store user="${xmldb.user}" password="${xmldb.passwd}" uri="${xmldb.approot}/batch3" createcollection="true" createsubcollections="true" type="xml">
+	    <fileset dir="${data_home}/Batch3-20120608">
+	      <include name="**/*METS.xml" />
+	      <exclude name="**/Princetonian-IMG/**" />
+	    </fileset>
+	  </xdb:store>
+	</target>
+</project>
+

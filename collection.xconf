@@ -1,0 +1,6 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:mets="http://www.loc.gov/METS/">
+        <fulltext default="none" attributes="no"/>
+        <create qname="@TYPE" type="xs:string"/>
+    </index>
+</collection>
