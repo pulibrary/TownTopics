@@ -1,7 +1,7 @@
 xquery version "1.0";
 declare namespace xdb="http://exist-db.org/xquery/xmldb";
 
-let $subcolls := xdb:get-child-collections('/db/pwb')
+let $subcolls := xdb:get-child-collections('/db/towntopicsqc')
 return
  <html xmlns="http://www.w3.org/1999/xhtml">
 <head><title>Historic Newspapers QC Tool</title></head>

@@ -42,7 +42,7 @@ else if ($exist:path eq '/') then
   <forward url="{concat($exist:controller, '/index.xql')}" />
 </dispatch>
 
-else if ($exist:path eq '/headline-sample') then
+else if ($exist:path eq '/headline-sample-full') then
 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
   <forward url="{concat($exist:controller, '/headline-sample.xql')}">
     <set-attribute name="xquery.attribute" value="result"/>
@@ -53,6 +53,13 @@ else if ($exist:path eq '/headline-sample') then
 	  <set-attribute name="xslt.input" value="result"/>
 	</forward>
       </view>
+    <cache-control cache="no"/>
+</dispatch>
+
+else if ($exist:path eq '/headline-sample') then
+<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+  <forward url="{concat($exist:controller, '/headline-sample.xql')}">
+  </forward>
     <cache-control cache="no"/>
 </dispatch>
     

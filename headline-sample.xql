@@ -11,15 +11,15 @@ declare variable $error-rate as xs:float := xs:float(0.0005);
 declare function local:headlines($batch as xs:string)
 as element()+
 {
-  let $coll := concat("/db/pwb/", $batch)
+  let $coll := concat("/db/towntopicsqc/", $batch)
   return collection($coll)//mods:relatedItem[@type='constituent']//mods:title[1]
 };
 
 declare function local:mastheads($batch as xs:string)
 as element()+
 {
-  let $coll := concat("/db/pwb/", $batch)
-  return collection($coll)//mods:mods/mods:part[@type='issue']
+  let $coll := concat("/db/towntopicsqc/", $batch)
+  return collection($coll)//mods:mods/mods:part
 };
 
 declare function local:add-to-list($sample as element()+, $list as element()*)
@@ -64,7 +64,7 @@ return
 };
 
 
-let $coll :=  concat('/db/pwb/', request:get-parameter('batch', ''))
+let $coll :=  concat('/db/towntopicsqc/', request:get-parameter('batch', ''))
 let $issues := collection($coll)//mods:mods
 
 let $headlines := local:headlines(request:get-parameter('batch', ''))
@@ -77,7 +77,7 @@ return
 { $stats }
 <sample>{
  for $x in $sample
- let $date := xs:string($x/ancestor::mods:mods/mods:part/mods:text)
+ let $date := xs:string($x/ancestor::mods:mods/mods:originInfo/mods:dateIssued[@encoding = "iso8601"])
  let $page := xs:string($x/ancestor::mods:relatedItem//mods:list)
  return 
    <title page="{$page}" date="{$date}">{ xs:string($x) }</title>
@@ -93,13 +93,16 @@ return
     <masthead date="{$date}" volume="{$volume}" issue="{$issue}">{ $text }</masthead>
 }</mastheads>
 
+
 <zones>{
-  for $x at $p in $issues where $p mod 25 = 0 return <issue>{$x/mods:part[@type='issue']/mods:text/text()}</issue>
+  for $x at $p in $issues where $p mod 2 = 0 (:Change this to something larger for larger batches:)
+  return
+  <issue>{ concat($x//mods:detail[@type='volume']/mods:caption, ', ', $x//mods:detail[@type='issue']/mods:caption, ' (',$x//mods:dateIssued[@encoding = 'iso8601'],')' ) }</issue>
 }</zones>
 
 <articleText>{
  for $x at $p in $sample
-  let $date := xs:string($x/ancestor::mods:mods/mods:part/mods:text)
+  let $date := xs:string($x/ancestor::mods:mods//mods:dateIssued[@encoding = "iso8601"])
  let $page := xs:string($x/ancestor::mods:relatedItem//mods:list)
  where $p mod 5 = 0
 return 
